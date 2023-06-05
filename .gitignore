@@ -118,13 +118,18 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
-
+# Folder
+BBC News Summary/
+lightning_logs/
 # Environments
+.Nlpenv
 .env
 .venv
+Nlpenv/
 env/
 venv/
 ENV/
+Nlpenv.bak/
 env.bak/
 venv.bak/
 

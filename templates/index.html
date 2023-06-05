@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BERT Summarizer</title>
+</head>
+<body>
+    <h1>BERT Summarizer</h1>
+    <form method="POST" action="/summary">
+        <label for="input_text">Enter your text:</label><br>
+        <textarea id="input_text" name="input_text" rows="10" cols="50"></textarea><br><br>
+        <input type="submit" value="Generate Summary">
+    </form>
+
+    {% if summary %}
+        <h2>Summary:</h2>
+        <p>{{ summary }}</p>
+        <h2>Original Text:</h2>
+        <p>{{ input_text }}</p>
+    {% endif %}
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Document Summarization</title>
+</head>
+<body>
+    <h1>Document Summarization</h1>
+    <form action="/summary" method="POST">
+        <label for="document">Enter the document:</label><br>
+        <textarea id="document" name="document" rows="10" cols="50"></textarea><br><br>
+        <input type="submit" value="Generate Summary">
+    </form>
+</body>
+</html> -->

@@ -1,0 +1,13 @@
+scikit-learn
+yake
+PyPDF2
+tensorflow
+nltk
+transformers
+rouge
+sentencepiece
+pytorch-lightning
+Numpy
+Pandas
+protobuf==3.20.0
+flask
