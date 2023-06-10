@@ -164,6 +164,7 @@
 
     function summary() {
       var articleText = document.getElementById('articleText').value;
+      var summaryType = document.getElementById('summaryType').value;
 
       // Display loading message
       var summarizedTextElement = document.getElementById('summarizedText');
@@ -189,7 +190,7 @@
       xhr.onerror = function() {
         summarizedTextElement.value = 'Error: ' + xhr.status;
       };
-      xhr.send(JSON.stringify({ articleText: articleText }));
+      xhr.send(JSON.stringify({ articleText: articleText, summaryType: summaryType }));
     }
   </script>
 </head>
@@ -204,6 +205,12 @@
     <h2>Upload Document (PDF)</h2>
     <input type="file" id="fileInput" name="fileInput" accept=".pdf" onchange="readUploadedFile()">
 
+    <h2>Summary Type</h2>
+    <select id="summaryType" name="summaryType">
+      <option value="short">Short Summary</option>
+      <option value="long">Long Summary</option>
+    </select>
+
     <h2>Summarized Text</h2>
     <textarea id="summarizedText" name="summarizedText" readonly></textarea>
     <p class="word-count">Word Count: <span id="summaryWordCount">0</span></p>
@@ -211,13 +218,4 @@
     <button type="button" class="summary-button" onclick="summary()">Summarize</button>
   </form>
 </body>
-</html> 
-
-
-
-
-
-
-
-
-
+</html>
