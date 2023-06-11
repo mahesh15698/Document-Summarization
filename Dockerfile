@@ -1,4 +1,6 @@
 FROM python:3.11.3
+
+RUN apt update -y && apt install awscli -y
 # Install TensorFlow
 RUN pip install tensorflow
 COPY . /app
