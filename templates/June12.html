@@ -83,11 +83,18 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
   <script>
     function countWords(text) {
+      // Remove leading and trailing white spaces
       text = text.trim();
+
+      // Split the text by white spaces
       var words = text.split(/\s+/);
+
+      // Remove empty words
       words = words.filter(function(word) {
         return word !== '';
       });
+
+      // Return the word count
       return words.length;
     }
 
@@ -97,11 +104,15 @@
       var reader = new FileReader();
 
       reader.onload = function(e) {
+        // Get the contents of the uploaded file
         var fileContent = reader.result;
+
+        // Display the PDF contents
         displayPDFText(fileContent);
       }
 
       if (file) {
+        // Read the uploaded file
         reader.readAsArrayBuffer(file);
       }
     }
@@ -135,10 +146,12 @@
         Promise.all(getPageTextPromises).then(function(pageTexts) {
           pdfText = pageTexts.join("");
 
+          // Set the document text in the text input
           var articleText = document.getElementById('articleText');
           articleText.value = pdfText;
 
-          updateWordCount(articleText.value);
+          // Update word count
+          updateWordCount(articleText.value, 'articleWordCount');
         });
       });
     }
@@ -151,106 +164,7 @@
 
     function summary() {
       var articleText = document.getElementById('articleText').value;
-      var articleWordCountElement = document.getElementById('articleWordCount');
-
-      var summarizedTextElement = document.getElementById('summarizedText');
-      summarizedTextElement.value = 'Summarizing...';
-
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', '/summary', true);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          var response = JSON.parse(xhr.responseText);
-
-          summarizedTextElement.value = response.summarized_text;
-
-          updateWordCount(response.summarized_text, 'summaryWordCount');
-        } else {
-          summarizedTextElement.value = 'Error: ' + xhr.status;
-        }
-      };
-      xhr.onerror = function() {
-        summarizedTextElement.value = 'Error: ' + xhr.status;
-      };
-      xhr.send(JSON.stringify({ articleText: articleText }));
-
-      updateWordCount(articleText, 'articleWordCount');
-    }
-  </script>
-</head>
-<body>
-  <h1>Text Summarization</h1>
-
-  <form>
-    <h2>Text Placement</h2>
-    <textarea id="articleText" name="articleText" placeholder="Paste or type the article text here" oninput="updateWordCount(this.value, 'articleWordCount')"></textarea>
-    <p class="word-count">Word Count: <span id="articleWordCount">0</span></p>
-
-    <h2>Upload Document (PDF)</h2>
-    <input type="file" id="fileInput" name="fileInput" accept=".pdf" onchange="readUploadedFile()"><br><br>
-    <button type="button" class="summary-button" onclick="summary()">Summarize</button>
-    <h2>Summarized Text</h2>
-    <textarea id="summarizedText" name="summarizedText" readonly></textarea>
-    <p class="word-count">Word Count: <span id="summaryWordCount">0</span></p>
-  </form>
-</body>
-</html>
-
-
-
-
-
-<!-- <!DOCTYPE html>
-<html>
-<head>
-  <title>Text Summarization</title>
-  <style>
-    /* CSS styles go here */
-
-    /* ... */
-
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
-  <script>
-    // JavaScript code goes here
-
-    // Function to count the number of words in a text
-    function countWords(text) {
-      // Remove leading and trailing white spaces
-      text = text.trim();
-
-      // Split the text by white spaces
-      var words = text.split(/\s+/);
-
-      // Remove empty words
-      words = words.filter(function(word) {
-        return word !== '';
-      });
-
-      // Return the word count
-      return words.length;
-    }
-
-    // Function to update the word count of the article text
-    function updateArticleWordCount() {
-      var articleText = document.getElementById('articleText').value;
-      var wordCount = countWords(articleText);
-      var wordCountElement = document.getElementById('articleWordCount');
-      wordCountElement.textContent = wordCount;
-    }
-
-    // Function to update the word count of the summarized text
-    function updateSummaryWordCount() {
-      var summarizedText = document.getElementById('summarizedText').value;
-      var wordCount = countWords(summarizedText);
-      var wordCountElement = document.getElementById('summaryWordCount');
-      wordCountElement.textContent = wordCount;
-    }
-
-    // Function to perform text summarization
-    function summary() {
-      var articleText = document.getElementById('articleText').value;
+      var summaryType = document.getElementById('summaryType').value;
 
       // Display loading message
       var summarizedTextElement = document.getElementById('summarizedText');
@@ -268,7 +182,7 @@
           summarizedTextElement.value = response.summarized_text;
 
           // Update word count
-          updateSummaryWordCount();
+          updateWordCount(response.summarized_text, 'summaryWordCount');
         } else {
           summarizedTextElement.value = 'Error: ' + xhr.status;
         }
@@ -276,7 +190,7 @@
       xhr.onerror = function() {
         summarizedTextElement.value = 'Error: ' + xhr.status;
       };
-      xhr.send(JSON.stringify({ articleText: articleText }));
+      xhr.send(JSON.stringify({ articleText: articleText, summaryType: summaryType }));
     }
   </script>
 </head>
@@ -285,16 +199,23 @@
 
   <form>
     <h2>Text Placement</h2>
-    <textarea id="articleText" name="articleText" placeholder="Paste or type the article text here" oninput="updateArticleWordCount()"></textarea>
+    <textarea id="articleText" name="articleText" placeholder="Paste or type the article text here" oninput="updateWordCount(this.value, 'articleWordCount')"></textarea>
     <p class="word-count">Word Count: <span id="articleWordCount">0</span></p>
 
     <h2>Upload Document (PDF)</h2>
-    <input type="file" id="fileInput" name="fileInput" accept=".pdf" onchange="readUploadedFile()"><br><br>
-    <button type="button" class="summary-button" onclick="summary()">Summarize</button>
+    <input type="file" id="fileInput" name="fileInput" accept=".pdf" onchange="readUploadedFile()">
 
+    
+    <h2>Summary Type</h2>
+    <select id="summaryType" name="summaryType">
+      <option value="short">Short Summary</option>
+      <option value="long">Long Summary</option>
+    </select><br><br>
+    <button type="button" class="summary-button" onclick="summary()">Summarize</button>
     <h2>Summarized Text</h2>
-    <textarea id="summarizedText" name="summarizedText" readonly oninput="updateSummaryWordCount()"></textarea>
+    <textarea id="summarizedText" name="summarizedText" readonly></textarea>
     <p class="word-count">Word Count: <span id="summaryWordCount">0</span></p>
+
   </form>
 </body>
-</html> -->
+</html>

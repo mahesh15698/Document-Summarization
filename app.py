@@ -45,7 +45,7 @@ def huggingFace(text, summary_type):
 
 @app.route('/')
 def home():
-    return render_template('June9.html')
+    return render_template('June12.html')
 
 @app.route('/summary', methods=['POST'])
 def summary():
