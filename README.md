@@ -5,6 +5,7 @@ Repository URL: 584210880842.dkr.ecr.us-east-1.amazonaws.com/doc_summarization
 
 ![Honar and Award for this projects by Capgemini America Inc](https://github.com/mahesh15698/Document-Summarization/blob/main/HonarAndAward/Hackathon.jpg)
 ![Power Point Presentation link](https://github.com/mahesh15698/Document-Summarization/blob/main/PPT/Text%20Summarization%20PPT%20(1).pdf)
+
 ## Power Point Presentation
 
 ![Text Summarization](https://github.com/mahesh15698/Document-Summarization/blob/main/PPT/Text%20Summarization%20PPT%20(1)/Slide1.JPG)
@@ -18,7 +19,7 @@ Repository URL: 584210880842.dkr.ecr.us-east-1.amazonaws.com/doc_summarization
 ![Text Summarization](https://github.com/mahesh15698/Document-Summarization/blob/main/PPT/Text%20Summarization%20PPT%20(1)/Slide5.JPG)
 ![Text Summarization](https://github.com/mahesh15698/Document-Summarization/blob/main/PPT/Text%20Summarization%20PPT%20(1)/Slide6.JPG)
 
-## User Interface
+## USER INTERFACE
 ![Text Summarization](https://github.com/mahesh15698/Document-Summarization/blob/main/PPT/Text%20Summarization%20PPT%20(1)/Slide7.JPG)
 
 ## REQUIREMENTS
